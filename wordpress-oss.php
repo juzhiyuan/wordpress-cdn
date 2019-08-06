@@ -8,7 +8,12 @@
   Author URI: https://www.shaoyaoju.org
  */
 
+$plugin_options_group = 'wordpress_oss_options';
+
 require_once 'actions.php';
 
-add_action('admin_init', 'wordpress_oss_init');
+register_activation_hook(__FILE__, "wordpress_oss_activatition");
+register_deactivation_hook(__FILE__, "wordpress_oss_deactivation");
+
+// add_action('admin_init', 'wordpress_oss_init');
 add_action('admin_menu', 'add_settings_page');
