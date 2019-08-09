@@ -1,7 +1,7 @@
 <?php
 /*
   Plugin Name: WordPress OSS
-  Plugin URI: https://www.shaoyaoju.org
+  Plugin URI: https://github.com/juzhiyuan/wordpress-oss
   Description: Upload files to Aliyun OSS
   Version: 0.0.1
   Author: juzhiyuan
