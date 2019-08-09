@@ -15,5 +15,19 @@ require_once 'actions.php';
 register_activation_hook(__FILE__, "wordpress_oss_activatition");
 register_deactivation_hook(__FILE__, "wordpress_oss_deactivation");
 
-// add_action('admin_init', 'wordpress_oss_init');
+// Add plugin setting menu to Admin Menu
 add_action('admin_menu', 'add_settings_page');
+
+if (substr_count($_SERVER['REQUEST_URI'], '/update.php') <= 0) {
+  add_filter('wp_handle_upload', 'wordpress_oss_upload_attachment');
+  add_filter('wp_generate_attachment_metadata', 'wordpress_oss_generate_attachment_metadata');
+}
+
+// Fired when attachment updated
+add_filter('wp_update_attachment_metadata', 'wordpress_oss_generate_attachment_metadata');
+
+// Delete remote attachment
+add_action('delete_attachment', 'wordpress_oss_delete_remote_attachment');
+
+// TODO Unique filename
+add_filter('wp_unique_filename', 'generate_unique_filename');
