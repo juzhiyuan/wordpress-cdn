@@ -1,8 +1,9 @@
 # wordpress-oss
-Upload attachments to [Aliyun OSS](https://www.aliyun.com/product/oss)
+Upload attachments to [Aliyun OSS](https://www.aliyun.com/product/oss), for more detail, please visit this [blog article](https://blog.shaoyaoju.org/2019/08/07/wordpress-oss/).
 
 ## Doc
 - [中文简体](./README-cn.md)
+
 ## Installation
 1. Clone the repo under `wordpress/wp-content/plugins/`;
 2. Visit WordPress dashboard and activate this plugin；

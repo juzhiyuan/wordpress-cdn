@@ -1,7 +1,7 @@
 <?php
 /*
   Plugin Name: WordPress OSS
-  Plugin URI: https://github.com/juzhiyuan/wordpress-oss
+  Plugin URI: https://www.shaoyaoju.org
   Description: Upload files to Aliyun OSS
   Version: 0.0.1
   Author: juzhiyuan
@@ -29,5 +29,4 @@ add_filter('wp_update_attachment_metadata', 'wordpress_oss_generate_attachment_m
 // Delete remote attachment
 add_action('delete_attachment', 'wordpress_oss_delete_remote_attachment');
 
-// TODO Unique filename
 add_filter('wp_unique_filename', 'generate_unique_filename');

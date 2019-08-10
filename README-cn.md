@@ -1,5 +1,5 @@
 # wordpress-oss
-上传附件至 [阿里云 OSS](https://www.aliyun.com/product/oss)
+上传附件至 [阿里云 OSS](https://www.aliyun.com/product/oss)，希望了解更多？可以查看这篇[博文](https://blog.shaoyaoju.org/2019/08/07/wordpress-oss/)。
 
 ## 安装
 1. 下载仓库内文件并拷贝至 WordPress 中 `wp-content/plugins` 目录下；
