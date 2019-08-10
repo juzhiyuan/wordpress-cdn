@@ -54,15 +54,15 @@ function wordpress_oss_upload_attachment($upload)
   );
 
   if (!in_array($upload['type'], $image_mime_types)) {
-    $key = str_replace(wp_upload_dir()['basedir'] . '/', '', $upload['file']);
-    $object = $upload['file'];
-    wordpress_oss_file_upload($key, $object);
+    $object = str_replace(wp_upload_dir()['basedir'] . '/', '', $upload['file']);
+    $filePath = $upload['file'];
+    wordpress_oss_file_upload($object, $filePath);
   }
 
   return $upload;
 }
 
-function wordpress_oss_file_upload($key, $object)
+function wordpress_oss_file_upload($object, $filePath)
 {
   // Init OSS Client Instance
   $option = get_option('wordpress_oss_options');
@@ -70,9 +70,9 @@ function wordpress_oss_file_upload($key, $object)
 
   // Action
   try {
-    $ossClient->uploadFile($option['bucket'], $key, $object);
+    $ossClient->uploadFile($option['bucket'], $object, $filePath);
 
-    wordpress_oss_delete_local_file($object);
+    wordpress_oss_delete_local_file($filePath);
   } catch (OssException $e) {
     return FALSE;
   }
