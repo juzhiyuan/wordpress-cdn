@@ -10,11 +10,11 @@ Upload attachments to [Aliyun OSS](https://www.aliyun.com/product/oss)
 ## Usage
 1. Activate this plugin;
 2. Click Settings menu on the left of dashboard, and click the `wordpress-oss` button；
-3. Fill out the config info：
+3. Fill out the configuration：
 
 |Field|Description|
 |-----------|-------------|
-|accessKeyId|Aliyun RAM Key ID|
+|accessKeyId|[Aliyun RAM](https://ram.console.aliyun.com) Key ID|
 |accessKeySecret|Aliyun RAM Secret Key|
 |endpoint|Area EndPoint|
 |bucket|OSS Bucket Name|
