@@ -10,7 +10,7 @@ use OSS\Core\OssException;
 function file_upload($object, $filePath)
 {
   // Init OSS Client Instance
-  $option = get_option('wordpress_oss_options');
+  $option = get_option('wordpress_cdn_options');
   $ossClient = new OssClient($option['accessKeyId'], $option['accessKeySecret'], $option['endpoint']);
 
   // Action
@@ -24,7 +24,7 @@ function file_upload($object, $filePath)
 }
 
 function check_file_exist_on_remote($object) {
-  $option = get_option('wordpress_oss_options');
+  $option = get_option('wordpress_cdn_options');
   $ossClient = new OssClient($option['accessKeyId'], $option['accessKeySecret'], $option['endpoint']);
   return $ossClient->doesObjectExist($option['bucket'], $object);
 }
@@ -52,7 +52,7 @@ function delete_remote_attachment($post_id)
   }
 
   if (!empty($deleteObjects)) {
-    $option = get_option('wordpress_oss_options');
+    $option = get_option('wordpress_cdn_options');
     $ossClient = new OssClient($option['accessKeyId'], $option['accessKeySecret'], $option['endpoint']);
     $ossClient->deleteObjects($option['bucket'], $deleteObjects);
   }

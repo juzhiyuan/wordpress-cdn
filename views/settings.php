@@ -4,7 +4,7 @@ function generate_settings_page()
   if (!current_user_can('manage_options')) {
     wp_die(__("You don't have sufficient permissions to access the page."));
   }
-  $options = get_option('wordpress_oss_options');
+  $options = get_option('wordpress_cdn_options');
   if ($options && isset($_GET['_wpnonce']) && wp_verify_nonce($_GET['_wpnonce']) && !empty($_POST)) {
     if ($_POST['type'] == 'options_update') {
       $options = array(
@@ -15,7 +15,7 @@ function generate_settings_page()
         'cdn_url_path' => (isset($_POST['cdn_url_path'])) ? sanitize_text_field(trim(stripslashes($_POST['cdn_url_path']))) : '',
       );
 
-      update_option('wordpress_oss_options', $options);
+      update_option('wordpress_cdn_options', $options);
 
       update_option('upload_url_path', esc_url_raw(trim(trim(stripslashes($_POST['cdn_url_path'])))));
       ?>

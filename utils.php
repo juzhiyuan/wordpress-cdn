@@ -1,7 +1,5 @@
 <?php
 
-define('WORDPRESS_OSS_BASE_FOLDER', plugin_basename(dirname(__FILE__)));
-
 function gen_uuid()
 {
   return sprintf(
