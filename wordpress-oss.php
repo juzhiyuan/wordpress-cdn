@@ -61,3 +61,61 @@ function plugin_deactivation()
   update_option('wordpress_oss_options', $options);
   update_option('upload_url_path', '');
 }
+
+function add_settings_page()
+{
+  require_once 'views/settings.php';
+  add_options_page('WordPress CDN Settings', 'WordPress CDN', 'manage_options', 'wordpress-cdn-plugin', 'generate_settings_page');
+}
+
+function upload_attachment($upload)
+{
+  $mime_types = get_allowed_mime_types();
+  $image_mime_types = array(
+    $mime_types['jpg|jpeg|jpe'],
+    $mime_types['gif'],
+    $mime_types['png'],
+    $mime_types['bmp'],
+    $mime_types['tiff|tif'],
+    $mime_types['ico'],
+  );
+
+  if (!in_array($upload['type'], $image_mime_types)) {
+    $object = str_replace(wp_upload_dir()['basedir'] . '/', '', $upload['file']);
+    $filePath = $upload['file'];
+    file_upload($object, $filePath);
+  }
+
+  return $upload;
+}
+
+function generate_attachment_metadata($metadata)
+{
+  if (isset($metadata['file'])) {
+    $attachment_key = $metadata['file'];
+    $attachment_local_path = wp_upload_dir()['basedir'] . '/' . $attachment_key;
+    file_upload($attachment_key, $attachment_local_path);
+  }
+
+  if (isset($metadata['sizes']) && count($metadata['sizes']) > 0) {
+    foreach ($metadata['sizes'] as $val) {
+      $attachment_thumb_key = dirname($metadata['file']) . '/' . $val['file'];
+      $attachment_thumb_local_path = wp_upload_dir()['basedir'] . '/' . $attachment_thumb_key;
+
+      file_upload($attachment_thumb_key, $attachment_thumb_local_path);
+    }
+  }
+
+  return $metadata;
+}
+
+function generate_unique_filename($filename)
+{
+  $object = wp_get_upload_dir()['subdir'] . "/$filename";
+  $object = ltrim($object, '/');
+
+  if (check_file_exist_on_remote($object)) {
+    $filename = gen_uuid() . '-' . $filename;
+  }
+  return $filename;
+}
