@@ -8,11 +8,17 @@
   Author URI: https://www.shaoyaoju.org
  */
 
-$plugin_options_group = 'wordpress_oss_options';
+$options = get_option('wordpress_cdn_options');
+if ($options) {
+  $platform = $options['platform'];
 
-$type = "aliyun_oss";
-if ($type == "aliyun_oss") {
-  require_once 'aliyun_oss.php';
+  if (isset($platform)) {
+    if ($platform == "aliyun_oss") {
+      require_once "aliyun_oss.php";
+    } elseif ($platform == "tencent_cos") {
+      require_once "tencent_cos.php";
+    }
+  }
 }
 
 register_activation_hook(__FILE__, "plugin_activatition");
@@ -37,18 +43,21 @@ add_filter('wp_unique_filename', 'generate_unique_filename');
 // Public Functions
 function plugin_activatition()
 {
-  $options = get_option('wordpress_oss_options');
+  $options = get_option('wordpress_cdn_options');
 
   if (!$options) {
     $options = array(
+      // Public Properties
+      'platform' => 'aliyun_oss',
+      'cdn_url_path' => '',
+      // https://shimo.im/docs/xj8kqtJKxJh8Xkrv
       'accessKeyId' => '',
       'accessKeySecret' => '',
       'endpoint' => '',
       'bucket' => '',
-      'cdn_url_path' => '',
     );
 
-    add_option('wordpress_oss_options', $options, '', 'yes');
+    add_option('wordpress_cdn_options', $options, '', 'yes');
   } else if (isset($options["cdn_url_path"]) && $options["cdn_url_path"] != "") {
     update_option('upload_url_path', $options['cdn_url_path']);
   }
@@ -56,9 +65,10 @@ function plugin_activatition()
 
 function plugin_deactivation()
 {
-  $options = get_option('wordpress_oss_options');
+  $options = get_option('wordpress_cdn_options');
+
   $options['cdn_url_path'] = get_option('upload_url_path');
-  update_option('wordpress_oss_options', $options);
+  update_option('wordpress_cdn_options', $options);
   update_option('upload_url_path', '');
 }
 
