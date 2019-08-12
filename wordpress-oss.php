@@ -10,7 +10,10 @@
 
 $plugin_options_group = 'wordpress_oss_options';
 
-require_once 'actions.php';
+$type = "aliyun_oss";
+if ($type == "aliyun_oss") {
+  require_once 'aliyun_oss.php';
+}
 
 register_activation_hook(__FILE__, "wordpress_oss_activatition");
 register_deactivation_hook(__FILE__, "wordpress_oss_deactivation");

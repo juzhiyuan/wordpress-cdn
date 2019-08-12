@@ -1,12 +1,12 @@
 
-=== WordPress OSS ===
+=== WordPress CDN ===
 Contributors: juzhiyuan
-Requires at least: Not Test
+Requires at least: No Test
 Stable tag: None
-Tested up to: Not Test
+Tested up to: No Test
 
-Upload files to Aliyun OSS
+Upload files to Content Storage platform like Aliyun OSS, Tencent COS or Amazon AWS.
 
 == Description ==
 
-WordPress OSS can upload your files to Aliyun OSS directly just by some easy steps, and you can choose whether your files need to be saved on disk.
+WordPress CDN can upload your files to Content Storage platform just by some easy steps, and you can choose multiple platforms.
