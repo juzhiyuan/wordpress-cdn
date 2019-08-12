@@ -4,5 +4,5 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
   exit();
 }
 
-delete_option('wordpress_oss_options');
+delete_option('wordpress_cdn_options');
 update_option('upload_url_path', '');
