@@ -31,7 +31,7 @@ function generate_settings_page()
   <div class="wrap">
     <h2>WordPress CDN Settings</h2>
     <p>welcome to use WordPress CDN plugin</p>
-    <form action="<?php echo wp_nonce_url('./options-general.php?page=' . WORDPRESS_OSS_BASE_FOLDER . '-plugin'); ?>" method="POST" id="wordpress-oss-form">
+    <form action="<?php echo wp_nonce_url('./options-general.php?page=' . PLUGIN_BASE_FOLDER . '-plugin'); ?>" method="POST" id="wordpress-oss-form">
       <h3>
         <label for=""></label>accessKeyId:
         <input type="text" name="accessKeyId" value="<?php echo esc_attr($options['accessKeyId']) ?>" size="40" />
