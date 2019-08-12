@@ -33,36 +33,36 @@ function generate_settings_page()
   <h2>WordPress CDN Settings</h2>
   <p>welcome to use WordPress CDN plugin</p>
   <form action="<?php echo wp_nonce_url('./options-general.php?page=' . PLUGIN_BASE_FOLDER . '-plugin'); ?>" method="POST">
-    <h3>
+    <h3 id="platform">
       <label for=""></label>Platform:
-      <select id="platform" name="platform" value="<?php echo esc_attr($options['platform']) ?>">
+      <select name="platform" value="">
         <option value="aliyun_oss">Aliyun OSS</option>
         <option value="tencent_cos">Tencent COS</option>
       </select>
     </h3>
 
-    <h3>
-      <label for=""></label>accessKeyId:
+    <h3 id="accessKeyId">
+      <label for=""></label>
       <input type="text" name="accessKeyId" value="<?php echo esc_attr($options['accessKeyId']) ?>" size="40" />
     </h3>
 
-    <h3>
-      <label for=""></label>accessKeySecret:
+    <h3 id="accessKeySecret">
+      <label for=""></label>
       <input type="text" name="accessKeySecret" value="<?php echo esc_attr($options['accessKeySecret']) ?>" size="40" />
     </h3>
 
-    <h3>
-      <label for=""></label>endpoint:
+    <h3 id="endpoint">
+      <label for=""></label>
       <input type="text" name="endpoint" value="<?php echo esc_attr($options['endpoint']) ?>" size="40" />
     </h3>
 
-    <h3>
-      <label for=""></label>bucket:
+    <h3 id="bucket">
+      <label for=""></label>
       <input type="text" name="bucket" value="<?php echo esc_attr($options['bucket']) ?>" size="40" />
     </h3>
 
-    <h3>
-      <label for=""></label>CDN URL:
+    <h3 id="cdn_url_path">
+      <label for=""></label>
       <input type="text" name="cdn_url_path" value="<?php echo esc_attr($options['cdn_url_path']) ?>" size="40" />
     </h3>
 
@@ -75,9 +75,62 @@ function generate_settings_page()
 
 <script>
   jQuery(function($) {
+    updateFieldsLabel();
+
     var platform = '<?php echo $options['platform'] ?>';
     $('#platform option[value=' + platform + ']').attr('selected', 'selected');
+
+    $('#platform').change(function() {
+      // var value = document.querySelector('#platform > select > option[selected]').value;
+      // updateFieldsLabel(value);
+    });
   });
+
+  function updateFieldsLabel(platformName) {
+    var platform = platformName || '<?php echo $options['platform'] ?>';
+
+    var PLATFORM_FIELDS_MAP = {
+      aliyun_oss: {
+        accessKeyId: {
+          desc: 'accessKeyId',
+        },
+        accessKeySecret: {
+          desc: 'accessKeySecret',
+        },
+        endpoint: {
+          desc: 'endpoint',
+        },
+        bucket: {
+          desc: 'bucket',
+        },
+        cdn_url_path: {
+          desc: 'CDN URL',
+        },
+      },
+      tencent_cos: {
+        accessKeyId: {
+          desc: 'secretId',
+        },
+        accessKeySecret: {
+          desc: 'secretKey',
+        },
+        endpoint: {
+          desc: 'region',
+        },
+        bucket: {
+          desc: 'bucket',
+        },
+        cdn_url_path: {
+          desc: 'CDN URL',
+        },
+      },
+    }
+
+    var PLATFORM_FIELDS = PLATFORM_FIELDS_MAP[platform];
+    for (key in PLATFORM_FIELDS) {
+      document.querySelector('#' + key + ' > label').innerText = PLATFORM_FIELDS[key].desc + ':';
+    }
+  }
 </script>
 
 <?php
