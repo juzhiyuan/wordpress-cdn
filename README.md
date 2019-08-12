@@ -1,4 +1,4 @@
-# wordpress-CDN
+# wordpress-cdn
 Upload attachments to Content Storage platform like [Aliyun OSS](https://www.aliyun.com/product/oss), [Tencent COS](https://cloud.tencent.com/product/cos) or [Amazon AWS](https://aws.amazon.com/). For more detail, please visit this [blog article](https://blog.shaoyaoju.org/2019/08/07/wordpress-oss/).
 
 ## Doc
