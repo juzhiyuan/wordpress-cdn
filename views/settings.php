@@ -6,7 +6,7 @@ function generate_settings_page()
   }
   $options = get_option('wordpress_oss_options');
   if ($options && isset($_GET['_wpnonce']) && wp_verify_nonce($_GET['_wpnonce']) && !empty($_POST)) {
-    if ($_POST['type'] == 'wordpress_oss_options_update') {
+    if ($_POST['type'] == 'options_update') {
       $options = array(
         'accessKeyId' => (isset($_POST['accessKeyId'])) ? sanitize_text_field(trim(stripslashes($_POST['accessKeyId']))) : '',
         'accessKeySecret' => (isset($_POST['accessKeySecret'])) ? sanitize_text_field(trim(stripslashes($_POST['accessKeySecret']))) : '',
@@ -29,8 +29,8 @@ function generate_settings_page()
   }
   ?>
   <div class="wrap">
-    <h2>WordPress OSS Settings</h2>
-    <p>Welcome to WordPress OSS plugin.</p>
+    <h2>WordPress CDN Settings</h2>
+    <p>welcome to use WordPress CDN plugin</p>
     <form action="<?php echo wp_nonce_url('./options-general.php?page=' . WORDPRESS_OSS_BASE_FOLDER . '-plugin'); ?>" method="POST" id="wordpress-oss-form">
       <h3>
         <label for=""></label>accessKeyId:
@@ -60,7 +60,7 @@ function generate_settings_page()
       <p>
         <input type="submit" name="submit" value="Save" />
       </p>
-      <input type="hidden" name="type" value="wordpress_oss_options_update">
+      <input type="hidden" name="type" value="options_update">
     </form>
   </div>
 <?php
