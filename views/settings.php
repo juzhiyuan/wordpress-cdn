@@ -8,6 +8,7 @@ function generate_settings_page()
   if ($options && isset($_GET['_wpnonce']) && wp_verify_nonce($_GET['_wpnonce']) && !empty($_POST)) {
     if ($_POST['type'] == 'options_update') {
       $options = array(
+        'platform' => (isset($_POST['platform'])) ? sanitize_text_field(trim(stripslashes($_POST['platform']))) : '',
         'accessKeyId' => (isset($_POST['accessKeyId'])) ? sanitize_text_field(trim(stripslashes($_POST['accessKeyId']))) : '',
         'accessKeySecret' => (isset($_POST['accessKeySecret'])) ? sanitize_text_field(trim(stripslashes($_POST['accessKeySecret']))) : '',
         'endpoint' => (isset($_POST['endpoint'])) ? sanitize_text_field(trim(stripslashes($_POST['endpoint']))) : '',
@@ -20,49 +21,65 @@ function generate_settings_page()
       update_option('upload_url_path', esc_url_raw(trim(trim(stripslashes($_POST['cdn_url_path'])))));
       ?>
 
-      <div style="font-size: 25px;color: red; margin-top: 20px;font-weight: bold;">
-        <p>WordPress OSS Saved!</p>
-      </div>
+<div style="font-size: 25px;color: red; margin-top: 20px;font-weight: bold;">
+  <p>WordPress OSS Saved!</p>
+</div>
 
-    <?php
+<?php
     }
   }
   ?>
-  <div class="wrap">
-    <h2>WordPress CDN Settings</h2>
-    <p>welcome to use WordPress CDN plugin</p>
-    <form action="<?php echo wp_nonce_url('./options-general.php?page=' . PLUGIN_BASE_FOLDER . '-plugin'); ?>" method="POST" id="wordpress-oss-form">
-      <h3>
-        <label for=""></label>accessKeyId:
-        <input type="text" name="accessKeyId" value="<?php echo esc_attr($options['accessKeyId']) ?>" size="40" />
-      </h3>
+<div class="wrap">
+  <h2>WordPress CDN Settings</h2>
+  <p>welcome to use WordPress CDN plugin</p>
+  <form action="<?php echo wp_nonce_url('./options-general.php?page=' . PLUGIN_BASE_FOLDER . '-plugin'); ?>" method="POST">
+    <h3>
+      <label for=""></label>Platform:
+      <select id="platform" name="platform" value="<?php echo esc_attr($options['platform']) ?>">
+        <option value="aliyun_oss">Aliyun OSS</option>
+        <option value="tencent_cos">Tencent COS</option>
+      </select>
+    </h3>
 
-      <h3>
-        <label for=""></label>accessKeySecret:
-        <input type="text" name="accessKeySecret" value="<?php echo esc_attr($options['accessKeySecret']) ?>" size="40" />
-      </h3>
+    <h3>
+      <label for=""></label>accessKeyId:
+      <input type="text" name="accessKeyId" value="<?php echo esc_attr($options['accessKeyId']) ?>" size="40" />
+    </h3>
 
-      <h3>
-        <label for=""></label>endpoint:
-        <input type="text" name="endpoint" value="<?php echo esc_attr($options['endpoint']) ?>" size="40" />
-      </h3>
+    <h3>
+      <label for=""></label>accessKeySecret:
+      <input type="text" name="accessKeySecret" value="<?php echo esc_attr($options['accessKeySecret']) ?>" size="40" />
+    </h3>
 
-      <h3>
-        <label for=""></label>bucket:
-        <input type="text" name="bucket" value="<?php echo esc_attr($options['bucket']) ?>" size="40" />
-      </h3>
+    <h3>
+      <label for=""></label>endpoint:
+      <input type="text" name="endpoint" value="<?php echo esc_attr($options['endpoint']) ?>" size="40" />
+    </h3>
 
-      <h3>
-        <label for=""></label>cdn_url_path:
-        <input type="text" name="cdn_url_path" value="<?php echo esc_attr($options['cdn_url_path']) ?>" size="40" />
-      </h3>
+    <h3>
+      <label for=""></label>bucket:
+      <input type="text" name="bucket" value="<?php echo esc_attr($options['bucket']) ?>" size="40" />
+    </h3>
 
-      <p>
-        <input type="submit" name="submit" value="Save" />
-      </p>
-      <input type="hidden" name="type" value="options_update">
-    </form>
-  </div>
+    <h3>
+      <label for=""></label>CDN URL:
+      <input type="text" name="cdn_url_path" value="<?php echo esc_attr($options['cdn_url_path']) ?>" size="40" />
+    </h3>
+
+    <p>
+      <input type="submit" name="submit" value="Save" />
+    </p>
+    <input type="hidden" name="type" value="options_update">
+  </form>
+</div>
+
+<script>
+  jQuery(function($) {
+    var platform = '<?php echo $options['platform'] ?>';
+    $('#platform option[value=' + platform + ']').attr('selected', 'selected');
+  });
+</script>
+
 <?php
 }
 ?>
