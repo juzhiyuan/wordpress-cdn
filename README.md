@@ -1,32 +1,26 @@
-# wordpress-cdn
-Upload attachments to Content Storage platform like [Aliyun OSS](https://www.aliyun.com/product/oss), [Tencent COS](https://cloud.tencent.com/product/cos) or [Amazon AWS](https://aws.amazon.com/). For more detail, please visit this [blog article](https://blog.shaoyaoju.org/2019/08/07/wordpress-oss/).
+# [wordpress-cdn](https://www.shaoyaoju.org)
+上传附件至内容存储平台，如 [阿里云 OSS](https://www.aliyun.com/product/oss) 等。希望了解更多？可以查看这篇 [博文](https://blog.shaoyaoju.org/2019/08/07/wordpress-oss/)。
 
-## Doc
-- [中文简体](./README-cn.md)
+[README in English](./README-en.md)
 
-## Installation
-1. Clone the repo under `wordpress/wp-content/plugins/`;
-2. Visit WordPress dashboard and activate this plugin；
+## 支持的平台
+- [阿里云 OSS](https://www.aliyun.com/product/oss)
+- [腾讯云 COS](https://cloud.tencent.com/product/cos)
 
-## Usage
-1. Activate this plugin;
-2. Click Settings menu on the left of dashboard, and click the `wordpress-oss` button；
-3. Fill out the configuration：
+## 安装
+1. 下载仓库内文件并拷贝至 WordPress 中 `wp-content/plugins` 目录下；
+2. 进入 WordPress 后台，并访问左侧 `插件` 设置；
+3. 激活 `wordpress-oss` 插件；
 
-|Field|Description|
-|-----------|-------------|
-|accessKeyId|[Aliyun RAM](https://ram.console.aliyun.com) Key ID|
-|accessKeySecret|Aliyun RAM Secret Key|
-|endpoint|Area EndPoint|
-|bucket|OSS Bucket Name|
-|cdn_url_path|CDN URL|
+## 使用
+1. 安装完毕后，激活插件；
+2. 在 WordPress 后台左侧 `设置` 中，进入 `WordPress OSS` 选项页；
+3. 填写配置信息并保存；
 
-## Note
-1. The field `cdn_url_path` cannot end with `/`;
-2. If the OSS area is in the same area as ECS, it's recommended to use the internal network address in the field `endpoint`;
-3. All uploaded files will be removed from your host server after the upload success；
-4. All files will be saved under the root of OSS by default；
-5. We can use [OSS tools](https://help.aliyun.com/document_detail/44075.html) to sync those data which are stored on the server disk to OSS；
+## 注意
+1. 该插件默认在上传文件完毕后，会将服务器中文件移除；
+2. 该插件默认上传文件至 Bucket 根目录下；
+3. 若 WordPress 曾有文件在服务器中，请先将服务器内文件同步至 Bucket 中；
 
-## Reference
+## 参考
 - [wpqiniu](https://wordpress.org/plugins/wpqiniu/)
