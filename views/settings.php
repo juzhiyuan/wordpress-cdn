@@ -35,7 +35,7 @@ function generate_settings_page()
   <form action="<?php echo wp_nonce_url('./options-general.php?page=' . PLUGIN_BASE_FOLDER . '-plugin'); ?>" method="POST">
     <h3 :id="item.key" v-for="(item, index) of fieldsData">
       <label for="">{{item.label || ''}}:</label>
-      <select name="platform" value="" v-if="item.type === 'select'" @change="onPlatformChange">
+      <select name="platform" :value="item.value" v-if="item.type === 'select'" @change="onPlatformChange">
         <option value="aliyun_oss">Aliyun OSS</option>
         <option value="tencent_cos">Tencent COS</option>
       </select>
@@ -55,7 +55,30 @@ function generate_settings_page()
   new Vue({
     el: '#wordpres-cdn__container',
     data: {
-      fieldsData: [{
+      fieldsData: [],
+      fieldsLabel: {
+        accessKeyId: {
+          aliyun_oss: 'accessKeyId',
+          tencent_cos: 'secretId',
+        },
+        accessKeySecret: {
+          aliyun_oss: 'accessKeySecret',
+          tencent_cos: 'secretKey',
+        },
+        endpoint: {
+          aliyun_oss: 'endpoint',
+          tencent_cos: 'region',
+        },
+        bucket: {
+          aliyun_oss: 'bucket',
+          tencent_cos: 'bucket',
+        },
+        cdn_url_path: {
+          aliyun_oss: 'CDN URL',
+          tencent_cos: 'CDN URL',
+        },
+      },
+      originData: [{
         key: 'platform',
         value: '<?php echo $options['platform'] ?>',
         type: 'select',
@@ -80,66 +103,38 @@ function generate_settings_page()
         value: '<?php echo $options['cdn_url_path'] ?>',
         type: 'input',
       }],
-      fieldsLabel: {
-        aliyun_oss: {
-          accessKeyId: {
-            desc: 'accessKeyId',
-          },
-          accessKeySecret: {
-            desc: 'accessKeySecret',
-          },
-          endpoint: {
-            desc: 'endpoint',
-          },
-          bucket: {
-            desc: 'bucket',
-          },
-          cdn_url_path: {
-            desc: 'CDN URL',
-          },
-        },
-        tencent_cos: {
-          accessKeyId: {
-            desc: 'secretId',
-          },
-          accessKeySecret: {
-            desc: 'secretKey',
-          },
-          endpoint: {
-            desc: 'region',
-          },
-          bucket: {
-            desc: 'bucket',
-          },
-          cdn_url_path: {
-            desc: 'CDN URL',
-          },
-        },
-      }
     },
     created() {
-      console.log('created');
       this.onPlatformChange();
     },
     methods: {
       onPlatformChange(e) {
         const platform = e ? e.target.value : '<?php echo $options['platform'] ?>';
 
+        if (platform === this.originData.find(field => field.key === 'platform').value) {
+          this.setFieldsValue();
+        }
+
         this.fieldsData = this.fieldsData.map(field => {
           if (field.key === 'platform') {
             field.value = platform;
+          } else {
+            if (platform !== '<?php echo $options['platform'] ?>') {
+              field.value = '';
+            }
           }
 
-          if (this.fieldsLabel[platform][field.key]) {
-            field.label = this.fieldsLabel[platform][field.key].desc;
+          if (this.fieldsLabel[field.key]) {
+            field.label = this.fieldsLabel[field.key][platform];
           } else {
             field.label = field.key;
           }
 
           return field
         })
-
-        console.log(this.fieldsData)
+      },
+      setFieldsValue() {
+        this.fieldsData = JSON.parse(JSON.stringify(this.originData));
       },
     },
   })
