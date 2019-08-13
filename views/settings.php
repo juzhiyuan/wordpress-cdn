@@ -22,48 +22,25 @@ function generate_settings_page()
       ?>
 
 <div style="font-size: 25px;color: red; margin-top: 20px;font-weight: bold;">
-  <p>WordPress OSS Saved!</p>
+  <p>WordPress CDN Saved!</p>
 </div>
 
 <?php
     }
   }
   ?>
-<div class="wrap">
+<div class="wrap" id="wordpres-cdn__container">
   <h2>WordPress CDN Settings</h2>
   <p>welcome to use WordPress CDN plugin</p>
   <form action="<?php echo wp_nonce_url('./options-general.php?page=' . PLUGIN_BASE_FOLDER . '-plugin'); ?>" method="POST">
-    <h3 id="platform">
-      <label for=""></label>Platform:
-      <select name="platform" value="">
+    <h3 :id="item.key" v-for="(item, index) of fieldsData">
+      <label for="">{{item.label || ''}}:</label>
+      <select name="platform" value="" v-if="item.type === 'select'" @change="onPlatformChange">
         <option value="aliyun_oss">Aliyun OSS</option>
         <option value="tencent_cos">Tencent COS</option>
       </select>
-    </h3>
 
-    <h3 id="accessKeyId">
-      <label for=""></label>
-      <input type="text" name="accessKeyId" value="<?php echo esc_attr($options['accessKeyId']) ?>" size="40" />
-    </h3>
-
-    <h3 id="accessKeySecret">
-      <label for=""></label>
-      <input type="text" name="accessKeySecret" value="<?php echo esc_attr($options['accessKeySecret']) ?>" size="40" />
-    </h3>
-
-    <h3 id="endpoint">
-      <label for=""></label>
-      <input type="text" name="endpoint" value="<?php echo esc_attr($options['endpoint']) ?>" size="40" />
-    </h3>
-
-    <h3 id="bucket">
-      <label for=""></label>
-      <input type="text" name="bucket" value="<?php echo esc_attr($options['bucket']) ?>" size="40" />
-    </h3>
-
-    <h3 id="cdn_url_path">
-      <label for=""></label>
-      <input type="text" name="cdn_url_path" value="<?php echo esc_attr($options['cdn_url_path']) ?>" size="40" />
+      <input type="text" :name="item.key" :value="item.value" size="40" v-if="item.type === 'input'" />
     </h3>
 
     <p>
@@ -73,64 +50,99 @@ function generate_settings_page()
   </form>
 </div>
 
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
 <script>
-  jQuery(function($) {
-    updateFieldsLabel();
+  new Vue({
+    el: '#wordpres-cdn__container',
+    data: {
+      fieldsData: [{
+        key: 'platform',
+        value: '<?php echo $options['platform'] ?>',
+        type: 'select',
+      }, {
+        key: 'accessKeyId',
+        value: '<?php echo $options['accessKeyId'] ?>',
+        type: 'input',
+      }, {
+        key: 'accessKeySecret',
+        value: '<?php echo $options['accessKeySecret'] ?>',
+        type: 'input',
+      }, {
+        key: 'endpoint',
+        value: '<?php echo $options['endpoint'] ?>',
+        type: 'input',
+      }, {
+        key: 'bucket',
+        value: '<?php echo $options['bucket'] ?>',
+        type: 'input',
+      }, {
+        key: 'cdn_url_path',
+        value: '<?php echo $options['cdn_url_path'] ?>',
+        type: 'input',
+      }],
+      fieldsLabel: {
+        aliyun_oss: {
+          accessKeyId: {
+            desc: 'accessKeyId',
+          },
+          accessKeySecret: {
+            desc: 'accessKeySecret',
+          },
+          endpoint: {
+            desc: 'endpoint',
+          },
+          bucket: {
+            desc: 'bucket',
+          },
+          cdn_url_path: {
+            desc: 'CDN URL',
+          },
+        },
+        tencent_cos: {
+          accessKeyId: {
+            desc: 'secretId',
+          },
+          accessKeySecret: {
+            desc: 'secretKey',
+          },
+          endpoint: {
+            desc: 'region',
+          },
+          bucket: {
+            desc: 'bucket',
+          },
+          cdn_url_path: {
+            desc: 'CDN URL',
+          },
+        },
+      }
+    },
+    created() {
+      console.log('created');
+      this.onPlatformChange();
+    },
+    methods: {
+      onPlatformChange(e) {
+        const platform = e ? e.target.value : '<?php echo $options['platform'] ?>';
 
-    var platform = '<?php echo $options['platform'] ?>';
-    $('#platform option[value=' + platform + ']').attr('selected', 'selected');
+        this.fieldsData = this.fieldsData.map(field => {
+          if (field.key === 'platform') {
+            field.value = platform;
+          }
 
-    $('#platform').change(function() {
-      // var value = document.querySelector('#platform > select > option[selected]').value;
-      // updateFieldsLabel(value);
-    });
-  });
+          if (this.fieldsLabel[platform][field.key]) {
+            field.label = this.fieldsLabel[platform][field.key].desc;
+          } else {
+            field.label = field.key;
+          }
 
-  function updateFieldsLabel(platformName) {
-    var platform = platformName || '<?php echo $options['platform'] ?>';
+          return field
+        })
 
-    var PLATFORM_FIELDS_MAP = {
-      aliyun_oss: {
-        accessKeyId: {
-          desc: 'accessKeyId',
-        },
-        accessKeySecret: {
-          desc: 'accessKeySecret',
-        },
-        endpoint: {
-          desc: 'endpoint',
-        },
-        bucket: {
-          desc: 'bucket',
-        },
-        cdn_url_path: {
-          desc: 'CDN URL',
-        },
+        console.log(this.fieldsData)
       },
-      tencent_cos: {
-        accessKeyId: {
-          desc: 'secretId',
-        },
-        accessKeySecret: {
-          desc: 'secretKey',
-        },
-        endpoint: {
-          desc: 'region',
-        },
-        bucket: {
-          desc: 'bucket',
-        },
-        cdn_url_path: {
-          desc: 'CDN URL',
-        },
-      },
-    }
-
-    var PLATFORM_FIELDS = PLATFORM_FIELDS_MAP[platform];
-    for (key in PLATFORM_FIELDS) {
-      document.querySelector('#' + key + ' > label').innerText = PLATFORM_FIELDS[key].desc + ':';
-    }
-  }
+    },
+  })
 </script>
 
 <?php
