@@ -8,7 +8,7 @@
 - [腾讯云 COS](https://cloud.tencent.com/product/cos)
 
 ## 安装
-1. 下载仓库内文件并拷贝至 WordPress 中 `wp-content/plugins` 目录下；
+1. 下载仓库内文件并拷贝至 WordPress 中 `wp-content/plugins` 目录下，文件夹名称请保持为 `wordpress-cdn`；
 2. 进入 WordPress 后台，并访问左侧 `插件` 设置；
 3. 激活 `wordpress-oss` 插件；
 
