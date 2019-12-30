@@ -12,7 +12,7 @@ Upload attachments to Content Storage platform like [Aliyun OSS](https://www.ali
 ## Usage
 1. Activate this plugin;
 2. Click Settings menu on the left of dashboard, and click the `wordpress-oss` button；
-3. Fill out the configuration：
+3. Fill out the whole configuration：
 
 ## Note
 1. All uploaded files will be removed from your host server after the upload success；
