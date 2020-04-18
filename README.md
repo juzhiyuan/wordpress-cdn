@@ -1,5 +1,5 @@
 # [wordpress-cdn](https://www.shaoyaoju.org)
-上传附件至内容存储平台，如 [阿里云 OSS](https://www.aliyun.com/product/oss) 等。希望了解更多？可以查看这篇 [博文](https://blog.shaoyaoju.org/2019/08/07/wordpress-oss/)。
+上传附件至内容存储平台，如 [阿里云 OSS](https://www.aliyun.com/product/oss) 等。希望了解更多？请查看这篇 [博文](https://blog.shaoyaoju.org/wordpress-oss/)。
 
 [README in English](./README-en.md)
 
